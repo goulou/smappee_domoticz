@@ -1,20 +1,7 @@
 #!/usr/local/bin/python2.7
 # encoding: utf-8
 '''
-main -- shortdesc
 
-main is a description
-
-It defines classes_and_methods
-
-@author:     user_name
-
-@copyright:  2016 organization_name. All rights reserved.
-
-@license:    license
-
-@contact:    user_email
-@deffield    updated: Updated
 '''
 
 import sys
@@ -70,8 +57,7 @@ def main(argv=None): # IGNORE:C0111
   Created by user_name on %s.
   Copyright 2016 organization_name. All rights reserved.
 
-  Licensed under the Apache License 2.0
-  http://www.apache.org/licenses/LICENSE-2.0
+  Licensed under the GPLv3
 
   Distributed on an "AS IS" basis without warranties
   or conditions of any kind, either express or implied.
