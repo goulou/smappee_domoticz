@@ -80,7 +80,7 @@ USAGE
             print("Verbose mode on")
     
         sm = Smappee("192.168.7.20")
-        sm.login_test()
+        sm.login_test("admin")
         
         consumption_counter = EnergyCounter("Consumption")
         solar_counter = EnergyCounter("Solar")

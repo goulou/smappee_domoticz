@@ -30,6 +30,7 @@ class Smappee(object):
         self.ip = ip
         self.url = "http://%s/gateway/apipublic/" % ip
         self.counters = {}
+        self.session_reuse_count = 0
         self.session = requests.Session()
         
     def set_counter(self, idx, counter):
@@ -41,12 +42,17 @@ class Smappee(object):
         
         url = self.url + path
         print("requesting %s" % url)
+        if self.session_reuse_count > 1000:
+            self.session_reuse_count = 0
+            self.session = requests.Session()
+            
         response = self.session.post(url, data, headers=HTTP_HEADERS)
         
         return response.json()
 
-    def login_test(self):
-        pprint.pprint(self.request("logon", "admin"))
+    def login_test(self, password):
+        val= self.request("logon", password)
+        return str(val) != "{u'error': u'Logon failed, wrong portal password!'}"
     
     def retreive_data(self):
         data = self.request("instantaneous", "loadInstantaneous")
