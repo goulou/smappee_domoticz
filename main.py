@@ -79,7 +79,7 @@ USAGE
         if verbose > 0:
             print("Verbose mode on")
     
-        sm = Smappee("10.42.0.78")
+        sm = Smappee("192.168.0.40")
         sm.login_test("admin")
         
         consumption_counter = EnergyCounter("Consumption")
