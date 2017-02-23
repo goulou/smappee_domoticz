@@ -32,6 +32,7 @@ class Smappee(object):
         self.counters = {}
         self.session_reuse_count = 0
         self.session = requests.Session()
+        self.last_used_password = ""
         
     def set_counter(self, idx, counter):
         self.counters[idx] = counter
@@ -50,7 +51,11 @@ class Smappee(object):
         
         return response.json()
 
-    def login_test(self, password):
+    def login_test(self, password=None):
+        if password is None:
+            password = self.last_used_password
+        else:
+            self.last_used_password = password
         val= self.request("logon", password)
         return str(val) != "{u'error': u'Logon failed, wrong portal password!'}"
     
