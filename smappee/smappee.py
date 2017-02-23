@@ -9,7 +9,7 @@ import pprint
 import sched
 import time
 import threading
-
+import traceback
 
 HTTP_HEADERS = { 'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json, text/javascript, */*; q=0.01',
@@ -24,6 +24,7 @@ class Smappee(object):
 
 
     def __init__(self, ip):
+        self.login_needed = False
         '''
         Constructor
         '''
@@ -60,16 +61,23 @@ class Smappee(object):
         return str(val) != "{u'error': u'Logon failed, wrong portal password!'}"
     
     def retreive_data(self):
-        data = self.request("instantaneous", "loadInstantaneous")
-#         pprint.pprint(data)
-        data_m = {}
-        for ar in data:
-            data_m[ar["key"]] = ar["value"]
-            
-            
-#         pprint.pprint(data_m)
-        for (counter_name, counter) in self.counters.iteritems():
-            counter.set_current_value(int(data_m[counter_name])/1000.0)
+        if self.login_needed:
+            print("Login Needed")
+            self.login_test()
+        try:
+            data = self.request("instantaneous", "loadInstantaneous")
+#             pprint.pprint(data)
+            data_m = {}
+            for ar in data:
+                data_m[ar["key"]] = ar["value"]
+                
+                
+#             pprint.pprint(data_m)
+            for (counter_name, counter) in self.counters.iteritems():
+                counter.set_current_value(int(data_m[counter_name])/1000.0)
+        except e:
+            traceback.print_exc(e)
+            self.login_needed = True
                 
     def start_instantaneous_reader(self):
         threading.Timer(UPDATE_DELAY_SECONDS, self.read_instantaneous_value).start()
